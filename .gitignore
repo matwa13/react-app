@@ -59,7 +59,7 @@ typings/
 /coverage
 
 # production
-# /build
+/dist
 
 # misc
 .idea/*

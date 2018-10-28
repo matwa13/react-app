@@ -3,7 +3,6 @@ import styles from './style.css';
 
 const Person = (props) => {
   let { name, children, age, clicked, changed } = { ...props };
-  throw new Error('error')
   return (
     <div className={styles.person}>
       <p onClick={clicked}>I'm a {name}. My age is {age}</p>
