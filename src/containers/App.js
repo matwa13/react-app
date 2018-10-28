@@ -1,15 +1,14 @@
 import React, {Component} from 'react';
 import styles from './App.css';
-import Person from './Person'
-import Input from './Input'
-import Char from './Char'
-import ErrorBoundary from './ErrorBoundary'
+import PersonList from '../components/PersonList'
+import Input from '../components/Input'
+import Char from '../components/Char'
 
 class App extends Component {
   state = {
     persons: [
-      { name: 'Max', age: 30, info: 'Any info', id: 'skdjskd1' },
-      { name: 'Maxim', age: 29, id: 'ldflkdlf2' }
+      { name: 'Max', age: 30, info: 'Any info', id: '1' },
+      { name: 'Maxim', age: 29, id: '2' }
     ],
     isVisible: false,
     inputVal: ''
@@ -56,15 +55,11 @@ class App extends Component {
     let personsList = null;
     let charsList = null;
     if (isVisible) {
-      personsList = persons.map((person, index) => {
-        return <ErrorBoundary key={person.id}>
-          <Person name={person.name}
-                  age={person.age}
-                  changed={(event) => this.handleChange(event, person.id)}
-                  clicked={() => this.deletePerson(index)}>{person.info}</Person>;
-        </ErrorBoundary>
-      });
+      personsList = <PersonList persons={persons}
+                         changed={this.handleChange}
+                         clicked={this.deletePerson}/>
     }
+
     if (inputVal.length) {
       charsList = inputVal.split('').map((char, index) => {
         return <Char value={char}
