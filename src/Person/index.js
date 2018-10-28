@@ -1,10 +1,11 @@
 import React from 'react';
-import './style.css';
+import styles from './style.css';
 
 const Person = (props) => {
   let { name, children, age, clicked, changed } = { ...props };
+  throw new Error('error')
   return (
-    <div className="person" style={style}>
+    <div className={styles.person}>
       <p onClick={clicked}>I'm a {name}. My age is {age}</p>
       <p>{children}</p>
       <input type="text"

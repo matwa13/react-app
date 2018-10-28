@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import './App.css';
+import styles from './App.css';
 import Person from './Person'
 import Input from './Input'
 import Char from './Char'
+import ErrorBoundary from './ErrorBoundary'
 
 class App extends Component {
   state = {
@@ -52,21 +53,16 @@ class App extends Component {
   render() {
     let { persons, isVisible, inputVal } = { ...this.state };
 
-    const style = {
-      backgroundColor: isVisible ? 'green' : 'red',
-      color: 'white',
-      padding: '10px'
-    }
-
     let personsList = null;
     let charsList = null;
     if (isVisible) {
       personsList = persons.map((person, index) => {
-        return <Person key={person.id}
-                       name={person.name}
-                       age={person.age}
-                       changed={(event) => this.handleChange(event, person.id)}
-                       clicked={() => this.deletePerson(index)}>{person.info}</Person>;
+        return <ErrorBoundary key={person.id}>
+          <Person name={person.name}
+                  age={person.age}
+                  changed={(event) => this.handleChange(event, person.id)}
+                  clicked={() => this.deletePerson(index)}>{person.info}</Person>;
+        </ErrorBoundary>
       });
     }
     if (inputVal.length) {
@@ -80,18 +76,18 @@ class App extends Component {
     const classes = [];
 
     if (persons.length <= 2) {
-      classes.push('red');
+      classes.push(styles.red);
     }
 
     if (persons.length <= 1) {
-      classes.push('bold');
+      classes.push(styles.bold);
     }
 
     return (
-      <div className="App">
+      <div className={styles.app}>
         <p className={classes.join(' ')}>Colored message</p>
-        <button onClick={this.handleClickBtn}
-                style={style}
+        <button className={isVisible ? '' : styles.red}
+                onClick={this.handleClickBtn}
         >Click
         </button>
         {personsList}
