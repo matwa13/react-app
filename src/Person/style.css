@@ -1,10 +1,10 @@
 .person {
     width: 60%;
     padding: 15px;
-    border: 1px solid red;
+    border: 1px solid green;
     text-align: center;
     margin: 10px auto;
-    box-shadow: 0 2px 3px red;
+    box-shadow: 0 2px 3px green;
 }
 
 @media (min-width: 500px) {

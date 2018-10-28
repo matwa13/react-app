@@ -1,22 +1,21 @@
 import React, {Component} from 'react';
 
-class Index extends Component {
+class ErrorBoundary extends Component {
   state = {
-    hasError: false,
-    errorMessage: ''
+    error: false
   }
 
   componentDidCatch = (error, info) => {
-    this.setState({hasError: true, errorMessage: error});
+    this.setState({error: info.componentStack});
   }
 
   render() {
-    if (this.state.hasError) {
-      return <h1>{this.state.errorMessage}</h1>
+    if (this.state.error) {
+      return <h1>{this.state.error.toString()}</h1>
     } else {
       return this.props.children;
     }
   }
 }
 
-export default Index;
+export default ErrorBoundary;
