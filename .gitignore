@@ -59,7 +59,7 @@ typings/
 /coverage
 
 # production
-/scripts
+# /build
 
 # misc
 .idea/*
