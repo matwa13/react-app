@@ -1,0 +1,28 @@
+.red {
+    color: red;
+}
+
+.italic {
+    font-style: italic;
+}
+
+.button {
+    background-color: green;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    outline: none;
+}
+
+.button:hover {
+    background-color: lightgreen;
+    color: black;
+}
+
+.button.red {
+    background-color: red;
+}
+
+.button.red:hover {
+    background-color: pink;
+}

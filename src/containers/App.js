@@ -3,20 +3,31 @@ import styles from './App.css';
 import PersonList from '../components/PersonList'
 import Input from '../components/Input'
 import Char from '../components/Char'
+import Cockpit from '../components/Cockpit'
+import withClass from '../hoc/withClass'
+
+export const AuthContext = React.createContext(false);
 
 class App extends Component {
   state = {
     persons: [
-      { name: 'Max', age: 30, info: 'Any info', id: '1' },
-      { name: 'Maxim', age: 29, id: '2' }
+      { name: 'Max', info: 'Any info', id: '1' },
+      { name: 'Maxim', age: 29, id: '2' },
+      { name: 'Maximilian', age: 18, id: '3' },
     ],
     isVisible: false,
-    inputVal: ''
+    inputVal: '',
+    toggleClicked: 0,
+    authenticated: false,
   };
 
   handleClickBtn = () => {
-    let oldVal = this.state.isVisible;
-    this.setState({ isVisible: !oldVal });
+    this.setState((prevState, props) => {
+      return {
+        isVisible: !prevState.isVisible,
+        toggleClicked: prevState.toggleClicked + 1,
+      }
+    });
   }
 
   deletePerson = (index) => {
@@ -49,15 +60,23 @@ class App extends Component {
     this.setState({ inputVal: newVal });
   }
 
+  loginHandler = () => {
+    this.setState((prevState) => {
+      return {
+        authenticated: !prevState.authenticated
+      }
+    });
+  }
+
   render() {
-    let { persons, isVisible, inputVal } = { ...this.state };
+    let { persons, isVisible, inputVal, authenticated } = { ...this.state };
 
     let personsList = null;
     let charsList = null;
     if (isVisible) {
       personsList = <PersonList persons={persons}
-                         changed={this.handleChange}
-                         clicked={this.deletePerson}/>
+                                changed={this.handleChange}
+                                clicked={this.deletePerson}/>
     }
 
     if (inputVal.length) {
@@ -68,29 +87,21 @@ class App extends Component {
       })
     }
 
-    const classes = [];
-
-    if (persons.length <= 2) {
-      classes.push(styles.red);
-    }
-
-    if (persons.length <= 1) {
-      classes.push(styles.bold);
-    }
-
     return (
-      <div className={styles.app}>
-        <p className={classes.join(' ')}>Colored message</p>
-        <button className={isVisible ? '' : styles.red}
-                onClick={this.handleClickBtn}
-        >Click
-        </button>
-        {personsList}
+      <>
+        <AuthContext.Provider value={authenticated}>
+          <Cockpit persons={persons}
+                   isVisible={isVisible}
+                   appTitle={this.props.title}
+                   login={this.loginHandler}
+                   clicked={this.handleClickBtn}/>
+          {personsList}
+        </AuthContext.Provider>
         <Input changed={(event) => this.changeInput(event)} value={inputVal}/>
         {charsList}
-      </div>
+      </>
     );
   }
 }
 
-export default App;
+export default withClass(App, styles.app);
